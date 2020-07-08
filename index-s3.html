@@ -24,6 +24,7 @@
 var bucketName = 'picoai-sabala-wakeword-training';
 var bucketRegion = 'us-east-1';
 var IdentityPoolId = 'us-east-1:75025d04-e095-4a6a-b2b0-f25711c49d4b';
+var audioFileName;
 
 AWS.config.update(
 {
@@ -63,41 +64,54 @@ function s3upload(key)
 	console.log("uploading!!! ");
 	
 	if(o){
-		var file = Date.now()+"-"+"rec-"+o.time+"ms-"+o.set.bitRate+"kbps-"+o.set.sampleRate+"hz"
-		var fileName = Date.now()+"-"+"rec-"+o.time+"ms-"+o.set.bitRate+"kbps-"+o.set.sampleRate+"hz."+o.set.type;
+		var file = Date.now()+"-"+"rec-"+o.time+"ms-"+o.set.bitRate+"kbps-"+o.set.sampleRate+"hz";
+		//
+		var fileName = "pico"+Date.now()+"-"+"rec-"+o.time+"ms-"+o.set.bitRate+"kbps-"+o.set.sampleRate+"hz."+o.set.type;
+
+		var filePath = 'my-first-bucket-path/' + fileName;
+
+		const reader = new FileReader();
+		reader.addEventListener('loadend', () => {
+   		// reader.result contains the contents of blob as a typed array
+   			file = reader.result;
+
+			s3.upload(
+			{
+				Key: filePath,
+				Body: file,
+				ACL: 'public-read'
+			}, 
+
+			function(err, data) 
+			{
+				console.log("error!!!: " + err);
+			
+				if(err) 
+				{
+					reject('error');
+				}
+					  
+				alert('Successfully Uploaded!');
+
+			}).on('httpUploadProgress', 
+
+			function (progress) 
+			{
+				var uploaded = parseInt((progress.loaded * 100) / progress.total);
+				
+				console.log("progress: " + uploaded);
+
+				$("progress").attr('value', uploaded);
+			});
+		});
+		reader.readAsArrayBuffer(o.blob);
+
 		o.down="上传mp3 : " + fileName;
 		$(".d"+key).html('<span style="color:red">'+o.down+'</span> <span class="'+cls+'"> </span>');
 		
-		var filePath = 'my-first-bucket-path/' + fileName;
+
 	
-		s3.upload(
-		{
-			Key: filePath,
-			Body: file,
-			ACL: 'public-read'
-		}, 
 
-		function(err, data) 
-		{
-			console.log("error!!!: " + err);
-		
-			if(err) 
-			{
-				reject('error');
-			}
-				  
-			alert('Successfully Uploaded!');
-
-		}).on('httpUploadProgress', 
-
-		function (progress) 
-		{
-			var uploaded = parseInt((progress.loaded * 100) / progress.total);
-			
-			console.log("progress: " + uploaded);
-
-			$("progress").attr('value', uploaded);
-		});
 	};
 };
 </script>
