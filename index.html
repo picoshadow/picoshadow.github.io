@@ -12,7 +12,7 @@
 
 </head>
 
-<body>
+<body onload="recopen()" onunload="recclose()">
 <!--加载核心库，其他类型支持库在下面根据用户点击选择加载-->
 <script src="src/recorder-core.js"></script>
 
@@ -102,6 +102,24 @@ function s3upload(key)
 				}
 					  
 				alert('Successfully Uploaded!');
+				var whichOne;
+				switch(recordNumber)
+				{
+					case 1:
+						whichOne = document.getElementById("statusRow1");
+						break;
+					case 2:
+						whichOne = document.getElementById("statusRow2");
+						break;
+					case 3:
+						whichOne = document.getElementById("statusRow3");
+						break;
+					default:
+
+				}
+				whichOne.innerHTML = "已上传";
+				whichOne.style.color = 'green';
+				
 
 			}).on('httpUploadProgress', 
 
@@ -154,12 +172,18 @@ RandomKey.idx=0;
 
 <!-- begin 开始copy源码 -->
 <div class="container">
+	<div class="jumbotron card card-image" style="background-image: url(https://mdbootstrap.com/img/Photos/Others/gradient1.jpg);">
+		<div class="text-white">
+			<h1>Oi Sophia</h1>
+			<p>这是用来录音 Oi Sophia</p>
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-md-6">
 		<a href="https://picoshadow.github.io">https://picoshadow.github.io</a>
 		</div>
 		<div class="col-md-6">
-		Version:  2.2
+		Version:  3.0
 		</div>
 	</div>
 
@@ -172,38 +196,69 @@ RandomKey.idx=0;
 		</ol>
 	</div>
 
-	<div class="text-left">
-		Codec类型:
-		<label><input type="radio" name="type" value="mp3" engine="mp3,mp3-engine" class="initType" checked>MP3</label>
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h5>1. 输入信息</h5>
+		</div>
+		<div class="panel-body">
+				<div class="text-left">
+					Codec类型:
+					<label><input type="radio" name="type" value="mp3" engine="mp3,mp3-engine" class="initType" checked>MP3</label>
+				</div>
+
+				<div class="text-left">
+					你的性别:
+					<label><input type="radio" name="sex" value="female" sex="female" class="initSex" checked>女</label>
+					<label><input type="radio" name="sex" value="male" sex="male">男</label>
+				</div>
+
+
+				<div class="text-left">
+					你的年龄:
+					<select id="userAge" name="age">
+						
+					</select>
+				</div>
+		</div>
 	</div>
 
-	<div class="text-left">
-		你的性别:
-		<label><input type="radio" name="sex" value="female" sex="female" class="initSex" checked>女</label>
-		<label><input type="radio" name="sex" value="male" sex="male">男</label>
+<!-- 	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h5>2. 许可录音权限</h5>
+		</div>
+		<div class="panel-body">
+			<div class="text-primary">
+				<button type="button" class="btn btn-success btn-lg btn-block" onclick="recopen()">
+					<span class="glyphicon glyphicon-check"></span>  授权访问你的录音设备
+				</button>
+				<button type="button" class="btn btn-info btn-lg btn-block" onclick="recclose()">关闭录音</button>
+			</div>
+		</div>
+	</div> -->
+
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h5>2. 录音操作说明</h5>
+		</div>
+		<div class="panel-body">
+			<ol>
+				<li>点击“开始录音”</li>
+				<li>对手机麦克风说“Oi Sophia”</li>
+				<li>点击“结束录音”</li>
+				<li>看到提示“上传成功”</li>
+				<li>重复三次</li>
+		</ol>
+		</div>
 	</div>
 
 
-	<div class="text-left">
-		你的年龄:
-		<select id="userAge" name="age">
-			
-		</select>
-	</div>
-
-
-	<div class="text-primary">
-		<button type="button" class="btn btn-success btn-lg btn-block" onclick="recopen()">
-		<span class="glyphicon glyphicon-check"></span> 授权访问你的录音设备
-		</button>
-		<button type="button" class="btn btn-info btn-lg btn-block" onclick="recclose()">关闭录音</button>
-	</div>
 
 	<table class="table table-hover">
 		<caption>录音内容</caption>
 		<thead>
 			<tr>
 				<th>序列</th>
+				<th>状态</th>
 				<th>录音开始</th>
 				<th>结束并上传</th>
 			</tr>
@@ -211,39 +266,48 @@ RandomKey.idx=0;
 		<tbody>
 			<tr>
 				<th>1</th>
+				<th id="statusRow1">
+					未录音
+				</th>
 				<th>
-					<button type="button" class="btn btn-default" onclick="recstart()">
+					<button id="startButton01" type="button" class="btn btn-default">
 						<span class="glyphicon glyphicon-record" style="color: rgb(255,0,0);"></span> 开始录音
 					</button>
 				</th>
 				<th>
-					<button type="button" class="btn btn-default" onclick="recstop()">
+					<button id="endButton01" type="button" class="btn btn-default">
 						<span class="glyphicon glyphicon-stop" style="color: rgb(0,0,0);"></span> 结束录音
 					</button>
 				</th>
 			</tr>
 			<tr>
 				<th>2</th>
+				<th id="statusRow2">
+					未录音
+				</th>
 				<th>
-					<button type="button" class="btn btn-default" onclick="recstart()">
+					<button id="startButton02" type="button" class="btn btn-default" onclick="recstart()">
 						<span class="glyphicon glyphicon-record" style="color: rgb(255,0,0);"></span> 开始录音
 					</button>
 				</th>
 				<th>
-					<button type="button" class="btn btn-default" onclick="recstop()">
+					<button id="endButton02" type="button" class="btn btn-default" onclick="recstop()">
 						<span class="glyphicon glyphicon-stop" style="color: rgb(0,0,0);"></span> 结束录音
 					</button>
 				</th>
 			</tr>
 			<tr>
 				<th>3</th>
+				<th id="statusRow3">
+					未录音
+				</th>
 				<th>
-					<button type="button" class="btn btn-default" onclick="recstart()">
+					<button id="startButton03" type="button" class="btn btn-default" onclick="recstart()">
 						<span class="glyphicon glyphicon-record" style="color: rgb(255,0,0);"></span> 开始录音
 					</button>
 				</th>
 				<th>
-					<button type="button" class="btn btn-default" onclick="recstop()">
+					<button id="endButton03" type="button" class="btn btn-default" onclick="recstop()">
 						<span class="glyphicon glyphicon-stop" style="color: rgb(0,0,0);"></span> 结束录音
 					</button>
 				</th>
@@ -313,7 +377,63 @@ $(window).bind("error",function(e){
 });
 </script>
 
+<!-- 
+Handle start and stop button events 
+update the status texts
+-->
+<script>
+	var recordNumber;
+	document.getElementById("startButton01").onclick=function(){startRec01()};
+	function startRec01(){
+		var statusText = document.getElementById("statusRow1");
+		statusText.innerHTML="录音中...";
+		statusText.style.color='red';
+		recordNumber = 1;
+		recstart();
+	}
 
+	document.getElementById("endButton01").onclick=function(){endRec01()};
+	function endRec01(){
+		var statusText = document.getElementById("statusRow1");
+		statusText.innerHTML="上传中...";
+		statusText.style.color='blue';
+		recstop();
+	}
+
+	document.getElementById("startButton02").onclick=function(){startRec02()};
+	function startRec02(){
+		var statusText = document.getElementById("statusRow2");
+		statusText.innerHTML="录音中...";
+		statusText.style.color='red';
+		recordNumber = 2;
+		recstart();
+	}
+
+	document.getElementById("endButton02").onclick=function(){endRec02()};
+	function endRec02(){
+		var statusText = document.getElementById("statusRow2");
+		statusText.innerHTML="上传中...";
+		statusText.style.color='blue';
+		recstop();
+	}
+
+		document.getElementById("startButton03").onclick=function(){startRec03()};
+	function startRec03(){
+		var statusText = document.getElementById("statusRow3");
+		statusText.innerHTML="录音中...";
+		statusText.style.color='red';
+		recordNumber = 3;
+		recstart();
+	}
+
+	document.getElementById("endButton03").onclick=function(){endRec03()};
+	function endRec03(){
+		var statusText = document.getElementById("statusRow3");
+		statusText.innerHTML="上传中...";
+		statusText.style.color='blue';
+		recstop();
+	}
+</script>
 
 <script>
 var rec;
@@ -378,7 +498,7 @@ function recstop(batCall){
 			recblob[id]={blob:blob,set:$.extend({},rec.set),time:time};
 			reclog("已录制:"+intp(rec.set.bitRate,3)+"kbps "+intp(rec.set.sampleRate,5)+"hz 花"+intp(Date.now()-t1,4)+"ms编码"+intp(blob.size,6)+"b ["+rec.set.type+"]"+intp(time,6)+'ms <button onclick="s3upload(\''+id+'\')">上传</button> <button onclick="recplay(\''+id+'\')">播放</button> <span class="p'+id+'"></span> <span class="d'+id+'"></span>');
 			batCall&&batCall();
-			alert("Uploading recorded file, please waiting...");
+			// alert("Uploading recorded file, please waiting...");
 			s3upload(id);
 		},function(s){
 			reclog("失败："+s);
