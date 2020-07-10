@@ -12,8 +12,8 @@
 
 </head>
 
-<!-- <bodyonload="recopen()" onunload="recclose()"  -->
-<body>
+<body onload="recopen()">
+<!-- <body> -->
 <!--加载核心库，其他类型支持库在下面根据用户点击选择加载-->
 <script src="src/recorder-core.js"></script>
 
@@ -184,7 +184,7 @@ RandomKey.idx=0;
 		<a href="https://picoshadow.github.io">https://picoshadow.github.io</a>
 		</div>
 		<div class="col-md-6">
-		Version:  3.1.4 DEBUG
+		Version:  3.3.0.0 DEBUG
 		</div>
 	</div>
 
@@ -261,7 +261,8 @@ RandomKey.idx=0;
 				<th>序列</th>
 				<th>状态</th>
 				<th>录音开始</th>
-				<th>结束并上传</th>
+				<th>结束录音</th>
+				<th>上传</th>>
 			</tr>
 		</thead>
 		<tbody>
@@ -280,6 +281,9 @@ RandomKey.idx=0;
 						<span class="glyphicon glyphicon-stop" style="color: rgb(0,0,0);"></span> 结束录音
 					</button>
 				</th>
+				<th id="uploadBtn01">
+					
+				</th>
 			</tr>
 			<tr>
 				<th>2</th>
@@ -296,6 +300,9 @@ RandomKey.idx=0;
 						<span class="glyphicon glyphicon-stop" style="color: rgb(0,0,0);"></span> 结束录音
 					</button>
 				</th>
+				<th id="uploadBtn02">
+					
+				</th>
 			</tr>
 			<tr>
 				<th>3</th>
@@ -311,6 +318,9 @@ RandomKey.idx=0;
 					<button id="endButton03" type="button" class="btn btn-default">
 						<span class="glyphicon glyphicon-stop" style="color: rgb(0,0,0);"></span> 结束录音
 					</button>
+				</th>
+				<th id="uploadBtn03">
+					
 				</th>
 			</tr>
 		</tbody>
@@ -399,10 +409,10 @@ update the status texts
 	document.getElementById("endButton01").onclick=function(){endRec01()};
 	function endRec01(){
 		var statusText = document.getElementById("statusRow1");
-		statusText.innerHTML="上传中...";
+		statusText.innerHTML="录音结束";
 		statusText.style.color='blue';
-		recstop();
-	    s3upload(recordID);
+		// recstop();
+		recstop_pico();
 	};
 </script>
 <script>
@@ -419,10 +429,10 @@ update the status texts
 	document.getElementById("endButton02").onclick=function(){endRec02()};
 	function endRec02(){
 		var statusText = document.getElementById("statusRow2");
-		statusText.innerHTML="上传中...";
+		statusText.innerHTML="录音结束";
 		statusText.style.color='blue';
-		recstop();
-	    s3upload(recordID);
+		// recstop();
+		recstop_pico();
 	};
 </script>
 <script>
@@ -439,10 +449,10 @@ update the status texts
 	document.getElementById("endButton03").onclick=function(){endRec03()};
 	function endRec03(){
 		var statusText = document.getElementById("statusRow3");
-		statusText.innerHTML="上传中...";
+		statusText.innerHTML="录音结束";
 		statusText.style.color='blue';
-		recstop();
-		s3upload(recordID);
+		// recstop();
+		recstop_pico();
 	};
 </script>
 
@@ -509,6 +519,63 @@ function recstop(batCall){
 			recordID = id;
 			recblob[id]={blob:blob,set:$.extend({},rec.set),time:time};
 			reclog("已录制:"+intp(rec.set.bitRate,3)+"kbps "+intp(rec.set.sampleRate,5)+"hz 花"+intp(Date.now()-t1,4)+"ms编码"+intp(blob.size,6)+"b ["+rec.set.type+"]"+intp(time,6)+'ms <button onclick="s3upload(\''+id+'\')">上传</button> <button onclick="recplay(\''+id+'\')">播放</button> <span class="p'+id+'"></span> <span class="d'+id+'"></span>');
+			batCall&&batCall();
+			// alert("Uploading recorded file, please waiting...");
+			// s3upload(id);
+		},function(s){
+			reclog("失败："+s);
+			batCall&&batCall();
+		});
+	};
+};
+function recstop_pico(batCall){
+	if(rec){
+		if(!batCall){
+			reclog("正在编码"+rec.set.type+"...");
+		};
+		var t1=Date.now();
+		rec.stop(function(blob,time){
+			var id=RandomKey(16);
+			recordID = id;
+			recblob[id]={blob:blob,set:$.extend({},rec.set),time:time};
+			reclog("已录制:"+intp(rec.set.bitRate,3)+"kbps "+intp(rec.set.sampleRate,5)+"hz 花"+intp(Date.now()-t1,4)+"ms编码"+intp(blob.size,6)+"b ["+rec.set.type+"]"+intp(time,6)+'ms <button onclick="s3upload(\''+id+'\')">上传</button> <button onclick="recplay(\''+id+'\')">播放</button> <span class="p'+id+'"></span> <span class="d'+id+'"></span>');
+
+			var para = document.createElement("button");
+			var node = document.createTextNode("upload");
+			para.appendChild(node);
+			var paraValue = "s3upload(\'"+id+"\')";
+			para.setAttribute("onclick", paraValue);
+			para.setAttribute("id", "buttonUpload001");
+			para.setAttribute("type", "button");
+			para.setAttribute("class", "btn btn-success");
+
+			//insert button
+			var element;
+
+			switch(recordNumber)
+			{
+				case 1:
+					element = document.getElementById("uploadBtn01");
+					break;
+				case 2:	
+					element = document.getElementById("uploadBtn02");
+					break;
+				case 3:
+					element = document.getElementById("uploadBtn03");
+					break;
+				default:
+			}
+			
+
+			if(element.hasChildNodes()) {
+				var lastNode = element.lastChild;
+				element.removeChild(lastNode);
+			}
+
+			element.appendChild(para);
+
+			// element.html('<button>upload</button>');
+
 			batCall&&batCall();
 			// alert("Uploading recorded file, please waiting...");
 			// s3upload(id);
