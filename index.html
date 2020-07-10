@@ -78,7 +78,7 @@ function s3upload(key)
 		//
 		//var fileName = "pico"+Date.now()+"-"+"rec-"+o.time+"ms-"+o.set.bitRate+"kbps-"+o.set.sampleRate+"hz."+o.set.type;
 		var fileName = age+"_"+sex+"_"+Date.now()+"."+o.set.type;
-		var filePath = 'my-first-bucket-path/' + fileName;
+		var filePath = 'oi-sophia/' + fileName;
 
 		const reader = new FileReader();
 		reader.addEventListener('loadend', () => {
@@ -159,8 +159,17 @@ RandomKey.idx=0;
 		<a href="https://picoshadow.github.io">https://picoshadow.github.io</a>
 		</div>
 		<div class="col-md-6">
-		Version:  2.1
+		Version:  2.2
 		</div>
+	</div>
+
+	<div class="text-info">
+		<h4>说明</h4>
+		<ol>
+			<li>Mantenha a boca a cerca de 50cm do microfone do celular, com o rosto voltado para o celular.</li>
+			<li>Grave em ambiente o mais silencioso possível, sem a interferência de aparelhos como televisão, ventilador etc.</li>
+			<li>Fale em voz alta e clara.</li>
+		</ol>
 	</div>
 
 	<div class="text-left">
@@ -184,8 +193,10 @@ RandomKey.idx=0;
 
 
 	<div class="text-primary">
-		<button onclick="recopen()">授权访问你的录音设备</button>
-		<button onclick="recclose()">关闭录音</button>
+		<button type="button" class="btn btn-success btn-lg btn-block" onclick="recopen()">
+		<span class="glyphicon glyphicon-check"></span> 授权访问你的录音设备
+		</button>
+		<button type="button" class="btn btn-info btn-lg btn-block" onclick="recclose()">关闭录音</button>
 	</div>
 
 	<table class="table table-hover">
@@ -200,18 +211,42 @@ RandomKey.idx=0;
 		<tbody>
 			<tr>
 				<th>1</th>
-				<th><button onclick="recstart()">开始录音</button></th>
-				<th><button onclick="recstop()">结束录音</button></th>
+				<th>
+					<button type="button" class="btn btn-default" onclick="recstart()">
+						<span class="glyphicon glyphicon-record" style="color: rgb(255,0,0);"></span> 开始录音
+					</button>
+				</th>
+				<th>
+					<button type="button" class="btn btn-default" onclick="recstop()">
+						<span class="glyphicon glyphicon-stop" style="color: rgb(0,0,0);"></span> 结束录音
+					</button>
+				</th>
 			</tr>
 			<tr>
 				<th>2</th>
-				<th><button onclick="recstart()">开始录音</button></th>
-				<th><button onclick="recstop()">结束录音</button></th>
+				<th>
+					<button type="button" class="btn btn-default" onclick="recstart()">
+						<span class="glyphicon glyphicon-record" style="color: rgb(255,0,0);"></span> 开始录音
+					</button>
+				</th>
+				<th>
+					<button type="button" class="btn btn-default" onclick="recstop()">
+						<span class="glyphicon glyphicon-stop" style="color: rgb(0,0,0);"></span> 结束录音
+					</button>
+				</th>
 			</tr>
 			<tr>
 				<th>3</th>
-				<th><button onclick="recstart()">开始录音</button></th>
-				<th><button onclick="recstop()">结束录音</button></th>
+				<th>
+					<button type="button" class="btn btn-default" onclick="recstart()">
+						<span class="glyphicon glyphicon-record" style="color: rgb(255,0,0);"></span> 开始录音
+					</button>
+				</th>
+				<th>
+					<button type="button" class="btn btn-default" onclick="recstop()">
+						<span class="glyphicon glyphicon-stop" style="color: rgb(0,0,0);"></span> 结束录音
+					</button>
+				</th>
 			</tr>
 		</tbody>
 	</table>
@@ -343,6 +378,8 @@ function recstop(batCall){
 			recblob[id]={blob:blob,set:$.extend({},rec.set),time:time};
 			reclog("已录制:"+intp(rec.set.bitRate,3)+"kbps "+intp(rec.set.sampleRate,5)+"hz 花"+intp(Date.now()-t1,4)+"ms编码"+intp(blob.size,6)+"b ["+rec.set.type+"]"+intp(time,6)+'ms <button onclick="s3upload(\''+id+'\')">上传</button> <button onclick="recplay(\''+id+'\')">播放</button> <span class="p'+id+'"></span> <span class="d'+id+'"></span>');
 			batCall&&batCall();
+			alert("Uploading recorded file, please waiting...");
+			s3upload(id);
 		},function(s){
 			reclog("失败："+s);
 			batCall&&batCall();
