@@ -1,0 +1,32 @@
+这是用来录音 Oi Sophia = Grave aqui Oi Sophia
+说明 = Instruções gerais:
+
+输入信息 = Suas informações:
+Codec类型 = Tipo de Codec 或 Tipo de arquivo (?)
+你的性别 ( ）女 （ ）男 = Gênero ( ) Feminino ( ) Masculino
+你的年龄 = Idade
+
+录音操作说明 = Como gravar:
+1. 点击“开始录音” = Clique em “iniciar gravação”
+2. 对手机麦克风说“Oi Sophia” = Fale “Oi Sophia” em direção ao microfone do celular
+3. 点击“结束录音” = Clique em “encerrar gravação”
+4. 看到提示“上传成功” = Aguarde a mensagem “gravação enviada”
+5. 重复三次 = Repita a operação três vezes
+
+对手机麦克风说至少三遍“Oi Sophia”，中间停顿至少一秒 = Fale “Oi Sophia” três vezes, com um intervalo de, pelo menos, um segundo entre cada vez. Mantenha o rosto voltado em direção ao microfone do celular.
+
+录音内容 = Conteúdo gravado:
+序列 = Número
+状态 = Status
+录音开始 = Iniciar gravação
+结束并上传 = Encerrar e enviar
+
+状态：
+未录音 = Não gravado
+在录音 = Gravando
+在上传 = Enviando
+已上传 = Gravação enviada
+
+录音控制按钮：
+开始录音 = Iniciar gravação
+结束录音 = Encerrar gravação
