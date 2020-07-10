@@ -12,7 +12,8 @@
 
 </head>
 
-<body onload="recopen()" onunload="recclose()">
+<body onload="recopen()" >
+<!-- <body> -->
 <!--加载核心库，其他类型支持库在下面根据用户点击选择加载-->
 <script src="src/recorder-core.js"></script>
 
@@ -101,7 +102,7 @@ function s3upload(key)
 					reject('error');
 				}
 					  
-				alert('Successfully Uploaded!');
+				// alert('Successfully Uploaded!');
 				var whichOne;
 				switch(recordNumber)
 				{
@@ -117,7 +118,7 @@ function s3upload(key)
 					default:
 
 				}
-				whichOne.innerHTML = "已上传";
+				whichOne.innerHTML = "Gravação enviada";
 				whichOne.style.color = 'green';
 				
 
@@ -175,7 +176,7 @@ RandomKey.idx=0;
 	<div class="jumbotron card card-image" style="background-image: url(https://mdbootstrap.com/img/Photos/Others/gradient1.jpg);">
 		<div class="text-white">
 			<h1>Oi Sophia</h1>
-			<p>这是用来录音 Oi Sophia</p>
+			<p>Grave aqui Oi Sophia</p>
 		</div>
 	</div>
 	<div class="row">
@@ -183,12 +184,12 @@ RandomKey.idx=0;
 		<a href="https://picoshadow.github.io">https://picoshadow.github.io</a>
 		</div>
 		<div class="col-md-6">
-		Version:  3.1
+		Version:  4.0
 		</div>
 	</div>
 
 	<div class="text-info">
-		<h4>说明</h4>
+		<h4>Instruções gerais:</h4>
 		<ol>
 			<li>Mantenha a boca a cerca de 50cm do microfone do celular, com o rosto voltado para o celular.</li>
 			<li>Grave em ambiente o mais silencioso possível, sem a interferência de aparelhos como televisão, ventilador etc.</li>
@@ -198,23 +199,23 @@ RandomKey.idx=0;
 
 	<div class="panel panel-info">
 		<div class="panel-heading">
-			<h5>1. 输入信息</h5>
+			<h5>1. Suas informações</h5>
 		</div>
 		<div class="panel-body">
 				<div class="text-left">
-					Codec类型:
+					Tipo de Codec:
 					<label><input type="radio" name="type" value="mp3" engine="mp3,mp3-engine" class="initType" checked>MP3</label>
 				</div>
 
 				<div class="text-left">
-					你的性别:
-					<label><input type="radio" name="sex" value="female" sex="female" class="initSex" checked>女</label>
-					<label><input type="radio" name="sex" value="male" sex="male">男</label>
+					Gênero:
+					<label><input type="radio" name="sex" value="female" sex="female" class="initSex" checked>Feminino</label>
+					<label><input type="radio" name="sex" value="male" sex="male">Masculino</label>
 				</div>
 
 
 				<div class="text-left">
-					你的年龄:
+					Idade:
 					<select id="userAge" name="age">
 						
 					</select>
@@ -238,15 +239,14 @@ RandomKey.idx=0;
 
 	<div class="panel panel-info">
 		<div class="panel-heading">
-			<h5>2. 录音操作说明</h5>
+			<h5>2. Como gravar</h5>
 		</div>
 		<div class="panel-body">
 			<ol>
-				<li>点击“开始录音”</li>
-				<li>对手机麦克风说“Oi Sophia”</li>
-				<li>点击“结束录音”</li>
-				<li>看到提示“上传成功”</li>
-				<li>重复三次</li>
+				<li>Clique em “iniciar gravação”</li>
+				<li>Fale “Oi Sophia” três vezes, com um intervalo de, pelo menos, um segundo entre cada vez. Mantenha o rosto voltado em direção ao microfone do celular.</li>
+				<li>Clique em “encerrar gravação”</li>
+				<li>Aguarde a mensagem “gravação enviada”</li>
 		</ol>
 		</div>
 	</div>
@@ -254,33 +254,33 @@ RandomKey.idx=0;
 
 
 	<table class="table table-hover">
-		<caption>录音内容</caption>
+		<caption>Conteúdo gravado</caption>
 		<thead>
 			<tr>
-				<th>序列</th>
-				<th>状态</th>
-				<th>录音开始</th>
-				<th>结束并上传</th>
+				<th>Número</th>
+				<th>Status</th>
+				<th>Iniciar gravação</th>
+				<th>Encerrar e enviar</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
 				<th>1</th>
 				<th id="statusRow1">
-					未录音
+					Não gravado
 				</th>
 				<th>
 					<button id="startButton01" type="button" class="btn btn-default">
-						<span class="glyphicon glyphicon-record" style="color: rgb(255,0,0);"></span> 开始录音
+						<span class="glyphicon glyphicon-record" style="color: rgb(255,0,0);"></span> Iniciar gravação
 					</button>
 				</th>
 				<th>
 					<button id="endButton01" type="button" class="btn btn-default">
-						<span class="glyphicon glyphicon-stop" style="color: rgb(0,0,0);"></span> 结束录音
+						<span class="glyphicon glyphicon-stop" style="color: rgb(0,0,0);"></span> Encerrar gravação
 					</button>
 				</th>
 			</tr>
-			<tr>
+<!-- 			<tr>
 				<th>2</th>
 				<th id="statusRow2">
 					未录音
@@ -311,7 +311,7 @@ RandomKey.idx=0;
 						<span class="glyphicon glyphicon-stop" style="color: rgb(0,0,0);"></span> 结束录音
 					</button>
 				</th>
-			</tr>
+			</tr> -->
 		</tbody>
 	</table>
 
@@ -344,21 +344,26 @@ RandomKey.idx=0;
 	<hr>
 	 <progress max=”100” value=”0”></progress>
 	<audio class="recPlay" style="width:100%"></audio>
-	<div class="reclog"></div>
-	<div class="recinfo"></div>
+	<div class="panel panel-default">
+		<div style="font-size: 6pt; color: #001">
+			<div class="reclog"></div>
+			<div class="recinfo"></div>				
+		</div>	
+	</div>
+
 </div>
 
-	<script language="JavaScript">
-		var select = document.getElementById("userAge");
-		for(var i=1;i<=135;i++){
-			var opt = document.createElement("option");
-			if(i==18)
-				opt.setAttribute("selected","selected");
-			opt.value=i;
-			opt.innerHTML=i;
-			select.appendChild(opt);
-		}
-	</script>
+<script language="JavaScript">
+	var select = document.getElementById("userAge");
+	for(var i=1;i<=135;i++){
+		var opt = document.createElement("option");
+		if(i==18)
+			opt.setAttribute("selected","selected");
+		opt.value=i;
+		opt.innerHTML=i;
+		select.appendChild(opt);
+	}
+</script>
 
 
 <script type="text/template" class="tp_recinfo">
@@ -386,7 +391,7 @@ update the status texts
 	document.getElementById("startButton01").onclick=function(){startRec01()};
 	function startRec01(){
 		var statusText = document.getElementById("statusRow1");
-		statusText.innerHTML="录音中...";
+		statusText.innerHTML="Gravando";
 		statusText.style.color='red';
 		recordNumber = 1;
 		recstart();
@@ -395,44 +400,44 @@ update the status texts
 	document.getElementById("endButton01").onclick=function(){endRec01()};
 	function endRec01(){
 		var statusText = document.getElementById("statusRow1");
-		statusText.innerHTML="上传中...";
+		statusText.innerHTML="Enviando";
 		statusText.style.color='blue';
 		recstop();
 	}
 
-	document.getElementById("startButton02").onclick=function(){startRec02()};
-	function startRec02(){
-		var statusText = document.getElementById("statusRow2");
-		statusText.innerHTML="录音中...";
-		statusText.style.color='red';
-		recordNumber = 2;
-		recstart();
-	}
+	// document.getElementById("startButton02").onclick=function(){startRec02()};
+	// function startRec02(){
+	// 	var statusText = document.getElementById("statusRow2");
+	// 	statusText.innerHTML="录音中...";
+	// 	statusText.style.color='red';
+	// 	recordNumber = 2;
+	// 	recstart();
+	// }
 
-	document.getElementById("endButton02").onclick=function(){endRec02()};
-	function endRec02(){
-		var statusText = document.getElementById("statusRow2");
-		statusText.innerHTML="上传中...";
-		statusText.style.color='blue';
-		recstop();
-	}
+	// document.getElementById("endButton02").onclick=function(){endRec02()};
+	// function endRec02(){
+	// 	var statusText = document.getElementById("statusRow2");
+	// 	statusText.innerHTML="上传中...";
+	// 	statusText.style.color='blue';
+	// 	recstop();
+	// }
 
-		document.getElementById("startButton03").onclick=function(){startRec03()};
-	function startRec03(){
-		var statusText = document.getElementById("statusRow3");
-		statusText.innerHTML="录音中...";
-		statusText.style.color='red';
-		recordNumber = 3;
-		recstart();
-	}
+	// 	document.getElementById("startButton03").onclick=function(){startRec03()};
+	// function startRec03(){
+	// 	var statusText = document.getElementById("statusRow3");
+	// 	statusText.innerHTML="录音中...";
+	// 	statusText.style.color='red';
+	// 	recordNumber = 3;
+	// 	recstart();
+	// }
 
-	document.getElementById("endButton03").onclick=function(){endRec03()};
-	function endRec03(){
-		var statusText = document.getElementById("statusRow3");
-		statusText.innerHTML="上传中...";
-		statusText.style.color='blue';
-		recstop();
-	}
+	// document.getElementById("endButton03").onclick=function(){endRec03()};
+	// function endRec03(){
+	// 	var statusText = document.getElementById("statusRow3");
+	// 	statusText.innerHTML="上传中...";
+	// 	statusText.style.color='blue';
+	// 	recstop();
+	// }
 </script>
 
 <script>
