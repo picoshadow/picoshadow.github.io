@@ -184,7 +184,7 @@ RandomKey.idx=0;
 		<a href="https://picoshadow.github.io">https://picoshadow.github.io</a>
 		</div>
 		<div class="col-md-6">
-		Version:  3.1
+		Version:  3.1.1 DEBUG
 		</div>
 	</div>
 
@@ -500,7 +500,7 @@ function recstop(batCall){
 			reclog("已录制:"+intp(rec.set.bitRate,3)+"kbps "+intp(rec.set.sampleRate,5)+"hz 花"+intp(Date.now()-t1,4)+"ms编码"+intp(blob.size,6)+"b ["+rec.set.type+"]"+intp(time,6)+'ms <button onclick="s3upload(\''+id+'\')">上传</button> <button onclick="recplay(\''+id+'\')">播放</button> <span class="p'+id+'"></span> <span class="d'+id+'"></span>');
 			batCall&&batCall();
 			// alert("Uploading recorded file, please waiting...");
-			s3upload(id);
+			// s3upload(id);
 		},function(s){
 			reclog("失败："+s);
 			batCall&&batCall();
