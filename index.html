@@ -76,10 +76,15 @@ function s3upload(key)
 	
 	if(o){
 		var file = Date.now()+"-"+"rec-"+o.time+"ms-"+o.set.bitRate+"kbps-"+o.set.sampleRate+"hz";
-		//
-		//var fileName = "pico"+Date.now()+"-"+"rec-"+o.time+"ms-"+o.set.bitRate+"kbps-"+o.set.sampleRate+"hz."+o.set.type;
+		var whichDay = new Date();
+		var months = 
+            [
+            "01", "02", "03", "04", "05", "06", 
+            "07", "08", "09", "10", "11", "12"
+            ];
+        var subFolderName = whichDay.getFullYear()+"-"+months[whichDay.getMonth()]+"-"+whichDay.getDate();
 		var fileName = age+"_"+sex+"_"+Date.now()+"."+o.set.type;
-		var filePath = 'oi-sophia/' + fileName;
+		var filePath = 'oi-sophia/' + subFolderName + '/' + fileName;
 
 		const reader = new FileReader();
 		reader.addEventListener('loadend', () => {
@@ -184,7 +189,7 @@ RandomKey.idx=0;
 		<a href="https://picoshadow.github.io">https://picoshadow.github.io</a>
 		</div>
 		<div class="col-md-6">
-		Versão:  4.3.1
+		Versão:  4.4.0
 		</div>
 	</div>
 
